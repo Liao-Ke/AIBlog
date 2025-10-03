@@ -1,4 +1,4 @@
-name: 生成每日故事
+name: 生成 AI 博客
 on:
   workflow_dispatch:
   schedule:
