@@ -2,7 +2,7 @@ name: 生成 AI 博客
 on:
   workflow_dispatch:
   schedule:
-  - cron: '0 12 * * *'
+  - cron: '0 0,6,12 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
