@@ -37,7 +37,21 @@ params:
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
-  comments: false
+  comments: 
+    enabled: true
+    giscus: 
+      repo: "Liao-Ke/AIBlog"
+      repoId: ${GISCUS_REPOID}
+      category: "Announcements"
+      categoryId: ${GISCUS_CATEGORYID}
+      mapping: "pathname"
+      strict: "0"
+      reactionsEnabled: "1"
+      emitMetadata: "0"
+      inputPosition: "top"
+      lightTheme: "light"
+      darkTheme: "dark_dimmed"
+      lang: "zh-CN"
   hidemeta: false
   hideSummary: false
   showtoc: false
