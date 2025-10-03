@@ -41,9 +41,9 @@ params:
     enabled: true
     giscus: 
       repo: "Liao-Ke/AIBlog"
-      repoId: ${GISCUS_REPOID}
+      repoId: R_kgDOP7EwoA
       category: "Announcements"
-      categoryId: ${GISCUS_CATEGORYID}
+      categoryId: DIC_kwDOP7EwoM4CwK3z
       mapping: "pathname"
       strict: "0"
       reactionsEnabled: "1"
