@@ -1,0 +1,7 @@
+ @font-face {
+    font-family: "jinkai";
+    src: url("/fonts/jinkai.ttf");
+}
+body {
+    font-family: "jinkai";
+}

@@ -1,0 +1,36 @@
+{{- $scratch := newScratch }}
+{{- /* 先通过局部模板获取中文星期 */}}
+{{- $weekday := partial "weekday.html" (dict
+"time" .Date "format" "Monday"
+) -}}
+{{- $timeFormat := "15:04" -}}
+{{- $formattedTime := .Date | time.Format $timeFormat -}}
+
+{{- /* 保留原有的日期格式化逻辑 */}}
+{{- $dateFormat := default ":date_long" site.Params.DateFormat -}}
+{{- $formattedDate := .Date | time.Format $dateFormat -}}
+
+{{- if not .Date.IsZero -}}
+{{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s %s %s</span>" .Date $formattedDate $weekday
+$formattedTime))}}
+{{- end }}
+
+{{- if (.Param "ShowReadingTime") -}}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTime | default (printf "%d min"
+.ReadingTime)))) }}
+{{- end }}
+
+{{- if (.Param "ShowWordCount") -}}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "words" .WordCount | default (printf "%d words"
+.WordCount)))) }}
+{{- end }}
+
+{{- if not (.Param "hideAuthor") -}}
+{{- with (partial "author.html" .) }}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
+{{- end }}
+{{- end }}
+
+{{- with ($scratch.Get "meta") }}
+{{- delimit . "&nbsp;·&nbsp;" | safeHTML -}}
+{{- end -}}

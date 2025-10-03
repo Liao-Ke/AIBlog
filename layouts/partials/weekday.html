@@ -1,0 +1,16 @@
+<!-- layouts/partials/weekday.html -->
+{{/* 定义英文到中文星期的映射表 */}}
+{{ $weekMap := dict 
+  "Monday" "星期一" "Tuesday" "星期二" "Wednesday" "星期三" 
+  "Thursday" "星期四" "Friday" "星期五" "Saturday" "星期六" "Sunday" "星期日"
+  "Mon" "周一" "Tue" "周二" "Wed" "周三" "Thu" "周四" "Fri" "周五" "Sat" "周六" "Sun" "周日"
+}}
+
+{{/* 接收外部传入的参数：时间（.time）和格式类型（.format，可选，默认 "Monday"） */}}
+{{ $time := .time }}
+{{ $format := default "Monday" .format }}
+
+
+
+{{/* 输出转换后的中文星期 */}}
+{{ index $weekMap ($time.Format $format) }}
