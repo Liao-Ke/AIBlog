@@ -1,12 +1,34 @@
 import json
 import os
-from datetime import datetime
-from zoneinfo import ZoneInfo
+import time
+from functools import wraps
 
 from cozepy import Coze, TokenAuth, COZE_CN_BASE_URL
 from dotenv import load_dotenv
 
 from utils import save_file, generate_random_filename
+
+
+# 重试装饰器
+def retry(max_attempts=3, delay_seconds=2):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            attempts = 0
+            while attempts < max_attempts:
+                try:
+                    return func(*args, **kwargs)
+                except Exception as err:
+                    attempts += 1
+                    if attempts == max_attempts:
+                        raise  # 达到最大重试次数，抛出最后一次异常
+                    print(f"操作失败: {str(err)}，将在{delay_seconds}秒后进行第{attempts + 1}次重试...")
+                    time.sleep(delay_seconds)
+
+        return wrapper
+
+    return decorator
+
 
 # initialize client
 load_dotenv()
@@ -14,42 +36,29 @@ coze_api_token = os.getenv("COZE_API_TOKEN")
 coze_api_base = COZE_CN_BASE_URL
 coze = Coze(auth=TokenAuth(coze_api_token), base_url=coze_api_base)
 
-ct = coze.workflows.runs.create(workflow_id=os.getenv("WORKFLOW_ID"), parameters=json.loads("""{
-    "input": [
-        "生活趣事",
-        "每周日记",
-        "观点与人文思考",
-        "每日计划"
-    ]
-}"""))
 
-ct_data = json.loads(ct.data)
-print(ct.model_dump_json(), ct.data)
-output = json.loads(ct_data["output"])
-output1 = json.loads(ct_data["output1"])
-output2 = ct_data["output2"]
-output3 = json.loads(ct_data["output3"])
+@retry(max_attempts=3, delay_seconds=2)
+def create_workflow_run(_workflow_id):
+    """创建工作流运行，带有重试机制"""
+    return coze.workflows.runs.create(workflow_id=_workflow_id)
 
-tz_aware_datetime = datetime.now(ZoneInfo('Asia/Shanghai'))
-iso_with_tz = tz_aware_datetime.isoformat(timespec='seconds')
 
-file_name = generate_random_filename(extension="md")
-file_content = f"""---
-title: {output["title"]}
-description: {output["description"]}
-summary: {output["summary"]}
-tags: {output1["tags"]}
-categories: ["试运行"]
-date: {iso_with_tz}
-AIGC: true
-cover:
-  image: "{output3["data"]["image_url"]}"
-  # can also paste direct link from external site
-  # ex. https://i.ibb.co/K0HVPBd/paper-mod-profilemode.png
-  alt: "{output3["data"]["description"]}"
-  caption: "{output3["data"]["title"]}"
-  relative: false # To use relative path for cover image, used in hugo Page-bundles
----
-{output2}
-"""
-save_file(f"content/posts/TrialRun/{file_name}", file_content)
+try:
+    # 获取工作流ID并创建运行实例，最多重试3次
+    workflow_id = os.getenv("WORKFLOW_ID")
+    if not workflow_id:
+        raise ValueError("环境变量中未找到WORKFLOW_ID")
+
+    ct = create_workflow_run(workflow_id)
+
+    # 处理返回结果
+    ct_data = json.loads(ct.data)
+    output = ct_data["output"]
+
+    # 保存结果到文件
+    file_name = generate_random_filename(extension="md")
+    save_file(f"content/posts/TrialRun/{file_name}", output)
+    print(f"成功保存结果到文件: {file_name}")
+
+except Exception as e:
+    print(f"执行失败: {str(e)}")
