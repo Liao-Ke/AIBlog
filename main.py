@@ -50,6 +50,9 @@ try:
         raise ValueError("环境变量中未找到WORKFLOW_ID")
 
     ct = create_workflow_run(workflow_id)
+    # 打印调试URL
+    debug_url = ct.debug_url
+    print(f"工作流运行调试URL: {debug_url}")
 
     # 处理返回结果
     ct_data = json.loads(ct.data)
