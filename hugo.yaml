@@ -4,7 +4,7 @@ languageCode: zh
 defaultContentLanguage: zh
 # paginate: 5
 theme: PaperMod
-
+enableGitInfo: true
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
@@ -14,6 +14,9 @@ hasCJKLanguage: true
 minify:
   disableXML: true
   minifyOutput: true
+
+frontmatter:
+  lastmod: ['lastmod', ':git', ':fileModTime', 'date', 'publishDate']
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
@@ -68,7 +71,7 @@ params:
 
   label:
     text: "Home"
-    icon: /apple-touch-icon.png
+    # icon: /apple-touch-icon.png
     iconHeight: 35
 
   # profile-mode

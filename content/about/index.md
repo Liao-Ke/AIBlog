@@ -1,4 +1,7 @@
 ---
-
+title: "关于"
+author: "Lsk"
+date: 2025-10-06T15:31:27+08:00
 ---
-[text](../../themes/PaperMod/layouts/partials)
+## 关于这个网站
+还没想好

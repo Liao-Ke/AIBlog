@@ -15,6 +15,16 @@
 $formattedTime))}}
 {{- end }}
 
+{{- /* 仅在 Lastmod 与 Date 不同时显示更新日期 */}}
+{{- if and (not .Lastmod.IsZero) (ne .Lastmod .Date) -}}
+{{- $scratch.Add "meta" (slice (printf "<span title='%s'>更新于 %s %s %s</span>" .Lastmod (.Lastmod | time.Format
+$dateFormat)
+(partial "weekday.html" (dict
+"time" .Lastmod "format" "Monday"
+))
+(.Lastmod | time.Format $timeFormat)))}}
+{{- end }}
+
 {{- if (.Param "ShowReadingTime") -}}
 {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTime | default (printf "%d min"
 .ReadingTime)))) }}
