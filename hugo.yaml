@@ -107,11 +107,11 @@ params:
     - name: github
       url: " https://github.com/Liao-Ke/AIBlog"
 
-  # analytics:
-  #   google:
-  #     SiteVerificationTag: "XYZabc"
-  #   bing:
-  #     SiteVerificationTag: "XYZabc"
+  analytics:
+    google:
+      SiteVerificationTag: "Ny5Lzy1wu6oBnCqoHartBfLfCQkHj27ee06TfS3MUbc"
+    bing:
+      SiteVerificationTag: "B1D753E98900123783F190A121501EEF"
   #   yandex:
   #     SiteVerificationTag: "XYZabc"
 
