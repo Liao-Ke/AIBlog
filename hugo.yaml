@@ -27,7 +27,7 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: AI Blog
   description: "这是一个基于Hugo的AI博客，博客由AI撰写"
-  keywords: [Blog, AI,AIGC, PaperMod]
+  keywords: [Blog, AI,AIGC, PaperMod, Hugo,AI Blog, AI 生成博客]
   author: "AIGC"
   # author: ["Me", "You"] # multiple authors
   # images: ["<link or path of image for opengraph, twitter-cards>"]
@@ -46,6 +46,9 @@ params:
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
+  # 不蒜子访问量统计 https://www.busuanzi.cc/
+  footer:
+    busuanzi: true
   comments: 
     enabled: true
     giscus: 
