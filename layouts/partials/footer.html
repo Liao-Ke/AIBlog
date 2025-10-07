@@ -2,10 +2,9 @@
 <footer class="footer">
     <!-- // 是文章页面，显示访问量 -->
     {{- if site.Params.footer.busuanzi}}
+        <script>(() => { const u = new URL('https://api.busuanzi.cc/api.php'); fetch(u.protocol + '//' + u.host + '/api.php', { method: 'POST', body: JSON.stringify({ url: location.href, referrer: document.referrer }) }).then(r => r.json()).then(r => { for (const k in r) document.querySelectorAll('#' + k).forEach(e => e.innerText = r[k]) }).catch(e => console.error(e)) })();</script>
     {{- if eq .Kind "page" }}
     <div>
-        <script>
-            (() => { const u = new URL('https://api.busuanzi.cc/api.php'); fetch(u.protocol + '//' + u.host + '/api.php', { method: 'POST', body: JSON.stringify({ url: location.href, referrer: document.referrer }) }).then(r => r.json()).then(r => { for (const k in r) document.querySelectorAll('#' + k).forEach(e => e.innerText = r[k]) }).catch(e => console.error(e)) })();</script>
         <div>
             本页今日阅读量 <span id="busuanzi_today_page_pv">加载中...</span> 次
             {{- print " · "}}
