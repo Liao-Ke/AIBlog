@@ -150,6 +150,10 @@ menu:
       name: 归档
       url: /archives/
       weight: 40
+    - identifier: statistics
+      name: 统计
+      url: https://cloud.umami.is/share/2WZPdOdQKjmBOHWb
+      weight: 50
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
