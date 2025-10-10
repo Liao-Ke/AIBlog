@@ -15,8 +15,8 @@
 $formattedTime))}}
 {{- end }}
 
-{{- /* 仅在 Lastmod 与 Date 不同时显示更新日期 */}}
-{{- if and (not .Lastmod.IsZero) (ne .Lastmod .Date) -}}
+{{- /* 仅在 Lastmod 与 Date 不同时显示更新日期 对比「年 - 月 - 日 小时：分钟」 */}}
+{{- if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02 15:04") (.Date.Format "2006-01-02 15:04")) -}}
 {{- $scratch.Add "meta" (slice (printf "<span title='%s'>更新于 %s %s %s</span>" .Lastmod (.Lastmod | time.Format
 $dateFormat)
 (partial "weekday.html" (dict
