@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 from functools import wraps
 
+import requests
 from cozepy import Coze, TokenAuth, COZE_CN_BASE_URL
 from dotenv import load_dotenv
 
@@ -147,6 +148,13 @@ def main():
         # 处理返回结果
         ct_data = json.loads(ct.data)
         output = ct_data["output"]
+        output0 = json.loads(ct_data["output0"])
+
+        resp = requests.delete(url=f"https://lsk.icu/aiblog/api/blog/{output0['filename']}")
+        if resp.status_code != 200:
+            logger.warning(f"删除博客失败，状态码: {resp.status_code}，响应: {resp.text}")
+        else:
+            logger.info(resp.json()["message"])
 
         # 保存结果到文件
         file_name = generate_random_filename(extension="md")
