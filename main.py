@@ -68,6 +68,8 @@ def setup_logging():
 
 
 # --- 原有代码（保持不变） ---
+fail_sum = 0
+
 
 # 重试装饰器
 def retry_with_exponential_backoff(max_attempts=5, initial_delay=1, max_delay=180, exponential_base=2, jitter=True):
@@ -91,6 +93,8 @@ def retry_with_exponential_backoff(max_attempts=5, initial_delay=1, max_delay=18
                     return func(*args, **kwargs)
                 except Exception as err:
                     attempts += 1
+                    global fail_sum
+                    fail_sum += 1
                     if attempts == max_attempts:
                         # 使用logger.error记录最终失败
                         logger.error(f"操作失败，已达到最大重试次数 {max_attempts}，最后一次异常: {str(err)}")
@@ -164,6 +168,19 @@ def main():
     except Exception as e:
         # 使用logger.exception记录完整的错误堆栈
         logger.exception(f"脚本执行失败: {str(e)}")
+        global fail_sum
+        logger.info(f"当前失败次数: {fail_sum}")
+        resp = requests.get(url=f"https://lsk.icu/aiblog/api/blog//latest/{fail_sum}")
+        if resp.status_code != 200:
+            logger.warning(f"获取最新博客失败，状态码: {resp.status_code}，响应: {resp.text}")
+
+        if resp.json()["files"]:
+            for file in resp.json()["files"]:
+                file_name = generate_random_filename(extension="md")
+                save_file(f"content/posts/TrialRun/{file_name}", file["content"])
+                logger.info(f"成功保存文件: {file_name}")
+        else:
+            logger.info(resp.json()["message"])
 
 
 if __name__ == "__main__":
