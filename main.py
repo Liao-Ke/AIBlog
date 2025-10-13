@@ -168,7 +168,10 @@ def main():
     except Exception as e:
         # 使用logger.exception记录完整的错误堆栈
         logger.exception(f"脚本执行失败: {str(e)}")
+    finally:
         global fail_sum
+        if fail_sum == 0:
+            return
         logger.info(f"当前失败次数: {fail_sum}")
         resp = requests.get(url=f"https://lsk.icu/aiblog/api/blog//latest/{fail_sum}")
         if resp.status_code != 200:
