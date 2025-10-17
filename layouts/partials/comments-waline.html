@@ -1,0 +1,93 @@
+<div id="waline-comment"></div>
+<script type="module">
+  import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+
+  init({
+    el: '#waline-comment',
+    serverURL: '{{ .Site.Params.comments.waline.serverURL }}',
+    lang: '{{ .Site.Params.comments.waline.lang }}',
+    dark: '{{ .Site.Params.comments.waline.dark | default "body.dark" }}',
+    locale: {
+      admin: '{{ .Site.Params.comments.waline.locale.admin }}',
+      placeholder: '{{ .Site.Params.comments.waline.locale.placeholder }}',
+    },
+    reaction: {{ .Site.Params.comments.waline.reaction | default false }},
+    search: {{ .Site.Params.comments.waline.search | default false }},
+    requiredMeta: [
+    {{- range.Site.Params.comments.waline.requiredMeta }}
+    '{{ . }}',
+    {{- end }}
+  ],
+    emoji: [
+    {{- range.Site.Params.comments.waline.emoji }}
+    '{{ . }}',
+    {{- end }}
+  ],
+    imageUploader: (file) => {
+      // --- 1. 文件校验 ---
+      // 定义允许的图片类型
+      const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+      // 定义最大文件大小 (例如: 5MB)
+      const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 * 1024 KB * 1024 B
+
+      // 检查文件类型
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        throw new Error(`不支持的文件类型: ${file.type}。请上传${ALLOWED_TYPES.join(', ')} 格式的图片。`);
+      }
+
+      // 检查文件大小
+      if (file.size > MAX_FILE_SIZE) {
+        // 将字节大小转换为更易读的MB格式
+        const fileSizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+        throw new Error(`文件大小超出限制。最大允许 ${MAX_FILE_SIZE / (1024 * 1024)}MB，当前文件为${fileSizeInMB}MB。`);
+      }
+
+      let formData = new FormData();
+      let headers = new Headers();
+      // 先读取 sessionStorage 的值
+      let userInfo = window.sessionStorage.getItem("WALINE_USER");
+
+      // 如果 sessionStorage 的值是 'null' 或不存在，再读取 localStorage
+      if (userInfo === 'null' || userInfo === null) {
+        userInfo = window.localStorage.getItem("WALINE_USER");
+      }
+
+      // 最后统一处理：如果是 'null' 字符串，转为实际 null；如果是有效字符串，解析为对象
+      userInfo = userInfo === 'null' ? null : (userInfo ? JSON.parse(userInfo) : null);
+      // console.log(userInfo);
+
+      if (!userInfo) {
+        throw new Error("请先登录");
+      }
+
+      if (!userInfo.token) {
+        throw new Error("请先登录");
+      }
+
+      formData.append('file', file);
+      headers.append('Authorization', 'Bearer ' + userInfo.token);
+      headers.append('Accept', 'application/json');
+
+      return fetch('{{ .Site.Params.comments.waline.serverURL }}/images/upload', {
+        method: 'POST',
+        headers: headers,
+        body: formData,
+      })
+        .then((resp) => {
+          // 检查HTTP响应状态是否成功（200-299）
+          if (!resp.ok) {
+            throw new Error(`请求失败:${resp.json().err}`);
+          }
+          return resp.json();
+        })
+        .then((resp) => {
+          // 成功时返回完整图片地址的Promise
+          return "{{ .Site.Params.comments.waline.serverURL }}" + resp.url;
+        })
+        .catch((error) => {
+          // 失败时抛出错误
+          throw error;
+        })
+    },
+  });
+</script>

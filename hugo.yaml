@@ -50,7 +50,7 @@ params:
   footer:
     busuanzi: true
   comments: 
-    enabled: true
+    enabled: waline
     giscus: 
       repo: "Liao-Ke/AIBlog"
       repoId: R_kgDOP7EwoA
@@ -64,6 +64,23 @@ params:
       lightTheme: "light"
       darkTheme: "dark_dimmed"
       lang: "zh-CN"
+    waline:
+      serverURL: "https://lsk.icu/aiblog/comments/waline" # 上方绑定的waline服务端域名
+      lang: zh-cn
+      reaction: true
+      locale: 
+        admin: '博主'
+        placeholder: '评论一下吧～'
+      requiredMeta: # 必填项，包括nick,mail,link
+        - nick
+      emoji:
+        - "https://unpkg.com/@waline/emojis@1.4.0/bilibili"
+        - "https://unpkg.com/@waline/emojis@1.4.0/bmoji"
+        - "https://unpkg.com/@waline/emojis@1.4.0/qq"
+        - "https://unpkg.com/@waline/emojis@1.4.0/tieba"
+        - "https://unpkg.com/@waline/emojis@1.4.0/tw-emoji"
+        - "https://unpkg.com/@waline/emojis@1.4.0/weibo"
+
   hidemeta: false
   hideSummary: false
   showtoc: false
