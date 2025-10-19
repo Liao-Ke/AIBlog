@@ -1,7 +1,14 @@
- @font-face {
-    font-family: "jinkai";
-    src: url("/fonts/jinkai.ttf");
+@font-face {
+  font-family: "jinkai";
+  src: url("/fonts/jinkai.ttf");
 }
 body {
-    font-family: "jinkai";
+  font-family: "jinkai";
+}
+
+/* 文章超链接样式 */
+.post-content a:not(.anchor) {
+  box-shadow: 0 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }

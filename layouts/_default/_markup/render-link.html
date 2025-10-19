@@ -1,0 +1,12 @@
+{{- $baseURL := site.BaseURL -}}{{/* 使用 site 函数获取全局配置 */}}
+{{- $baseHost := (urls.Parse $baseURL).Host -}}
+{{- $destHost := (urls.Parse .Destination).Host -}}
+
+<a href="{{ .Destination | safeURL }}"
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+  {{- if not (or (eq $destHost "") (eq $destHost $baseHost)) }} 
+    target="_blank" rel="noopener noreferrer"
+  {{- end -}}
+>
+  {{- with .Text | safeHTML }}{{ . }}{{ end -}}
+</a>
