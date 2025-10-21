@@ -5,24 +5,24 @@
         <script>var bszCaller = { fetch: function (u, c) { var n = 'bszCallback_' + Math.floor(1099511627776 * Math.random()); window[n] = function (d) { try { c(d) } catch (e) { console.error('处理统计数据时出错:', e) } finally { var s = document.getElementById(n); s && s.parentNode.removeChild(s); delete window[n] } }; var f = u.replace('=bszCallback', '=' + n), s = document.createElement('script'); s.id = n; s.src = f; s.type = 'text/javascript'; s.defer = true; document.getElementsByTagName('head')[0].appendChild(s) } }; var bszTag = { bszs: ['site_pv', 'page_pv', 'site_uv', 'today_pv', 'today_uv'], texts: function (d) { d.message ? this.a(d.message) : this.b(d) }, a: function (m) { this.bszs.forEach(function (t) { var e = document.getElementById('busuanzi_' + t); e && (e.innerHTML = m) }) }, b: function (d) { this.bszs.forEach(function (t) { var e = document.getElementById('busuanzi_' + t); e && (e.innerHTML = d[t]) }) } }; bszCaller.fetch('https://cdn.busuanzi.cc/busuanzi/?jsonpCallback=bszCallback', function (d) { bszTag.texts(d); });</script>
     {{- if eq .Kind "page" }}
     <div>
-        <div>
+        <!-- <div>
             本页今日阅读量 <span id="busuanzi_today_page_pv">加载中...</span> 次
             {{- print " · "}}
             本页今日访客数 <span id="busuanzi_today_page_uv">加载中...</span> 人
-        </div>
+        </div> -->
         <div>
             本页总阅读量 <span id="busuanzi_page_pv">加载中...</span> 次
-            {{- print " · "}}
-            本页总访客数 <span id="busuanzi_page_uv">加载中...</span> 人
+            <!-- {{- print " · "}}
+                                    本页总访客数 <span id="busuanzi_page_uv">加载中...</span> 人 -->
         </div>
 
     </div>
     {{- else}}
-    <div>
+    <!-- <div>
         本站今日访问量 <span id="busuanzi_today_site_pv">加载中...</span> 次
         {{- print " · "}}
         本站今日访客数 <span id="busuanzi_today_site_uv">加载中...</span> 人
-    </div>
+    </div> -->
     <div>
         本站总访问量 <span id="busuanzi_site_pv">加载中...</span> 次
         {{- print " · "}}
