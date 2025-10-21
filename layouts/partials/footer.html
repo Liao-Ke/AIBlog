@@ -2,7 +2,7 @@
 <footer class="footer">
     <!-- // 是文章页面，显示访问量 -->
     {{- if site.Params.footer.busuanzi}}
-        <script>(() => { const u = new URL('https://api.busuanzi.cc/api.php'); fetch(u.protocol + '//' + u.host + '/api.php', { method: 'POST', body: JSON.stringify({ url: location.href, referrer: document.referrer }) }).then(r => r.json()).then(r => { for (const k in r) document.querySelectorAll('#' + k).forEach(e => e.innerText = r[k]) }).catch(e => console.error(e)) })();</script>
+        <script>var bszCaller = { fetch: function (u, c) { var n = 'bszCallback_' + Math.floor(1099511627776 * Math.random()); window[n] = function (d) { try { c(d) } catch (e) { console.error('处理统计数据时出错:', e) } finally { var s = document.getElementById(n); s && s.parentNode.removeChild(s); delete window[n] } }; var f = u.replace('=bszCallback', '=' + n), s = document.createElement('script'); s.id = n; s.src = f; s.type = 'text/javascript'; s.defer = true; document.getElementsByTagName('head')[0].appendChild(s) } }; var bszTag = { bszs: ['site_pv', 'page_pv', 'site_uv', 'today_pv', 'today_uv'], texts: function (d) { d.message ? this.a(d.message) : this.b(d) }, a: function (m) { this.bszs.forEach(function (t) { var e = document.getElementById('busuanzi_' + t); e && (e.innerHTML = m) }) }, b: function (d) { this.bszs.forEach(function (t) { var e = document.getElementById('busuanzi_' + t); e && (e.innerHTML = d[t]) }) } }; bszCaller.fetch('https://cdn.busuanzi.cc/busuanzi/?jsonpCallback=bszCallback', function (d) { bszTag.texts(d); });</script>
     {{- if eq .Kind "page" }}
     <div>
         <div>
