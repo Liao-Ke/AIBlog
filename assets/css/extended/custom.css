@@ -7,8 +7,8 @@ body {
 }
 
 /* 文章超链接样式 */
-.post-content a:not(.anchor) {
+/* .post-content a:not(.anchor) {
   box-shadow: 0 1px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-}
+} */

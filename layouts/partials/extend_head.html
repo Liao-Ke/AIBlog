@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
 {{- end}}
 <!-- 盘古之白 https://github.com/vinta/pangu.js -->
-{{- $highlight := resources.Get "js/pangu.umd.min.js" }}
+{{- $highlight := resources.Get "js/pangu.umd.min.js" | fingerprint}}
 <script>
     (function (u, c) {
         var d = document,
