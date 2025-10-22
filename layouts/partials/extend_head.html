@@ -28,6 +28,8 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-{{- if eq .Site.Params.comments.enabled "waline"}}
+<link test rel="stylesheet" href="{{.Kind }}">
+{{- if and (eq .Site.Params.comments.enabled "waline") (eq .Kind "page") }}
+
 <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
 {{- end}}
