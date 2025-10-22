@@ -18,6 +18,7 @@
 
     gtag('config', 'G-499DJR7YTD');
 </script>
+
 <!-- 百度统计 https://tongji.baidu.com/-->
 <script>
     var _hmt = _hmt || [];
@@ -28,8 +29,27 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+<!-- Waline CSS -->
 <link test rel="stylesheet" href="{{.Kind }}">
 {{- if and (eq .Site.Params.comments.enabled "waline") (eq .Kind "page") }}
-
 <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
 {{- end}}
+<!-- 盘古之白 https://github.com/vinta/pangu.js -->
+{{- $highlight := resources.Get "js/pangu.umd.min.js" }}
+<script>
+    (function (u, c) {
+        var d = document,
+            t = "script",
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) {
+            o.addEventListener("load", function (e) {
+                c(e);
+            });
+        }
+        s.parentNode.insertBefore(o, s);
+    })("{{ $highlight.RelPermalink }}", function () {
+        pangu.spacingPage();
+    });
+</script>
