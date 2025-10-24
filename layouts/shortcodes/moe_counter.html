@@ -1,0 +1,37 @@
+<div id="moe-counter-container"> 
+ <img id="moe-counter" alt="Moe Counter">   
+    </div>
+
+
+<script defer src="https://vercount.one/js"></script>
+
+<script>
+    const getStoredTheme = (reverse = false) => {
+
+        const baseValue = localStorage.getItem("pref-theme") === "dark" ? 1 : 0;
+        // 根据参数决定是否反转（0→1，1→0）
+        return reverse ? 1 - baseValue : baseValue;
+    };
+
+    function setMoeCounterTheme(moeCounterImg, site_pv = 0, reverse = true,) {
+        const themCode = getStoredTheme(reverse)
+        moeCounterImg.src = `https://count.getloli.com/@AIBlog?name=AIBlog&theme=booru-vivi&padding=8&offset=0&align=center&scale=1&pixelated=1&darkmode=${themCode}&num=${site_pv}`;
+    }
+
+    const { site_pv } = JSON.parse(localStorage.getItem("visitorCountData"));
+
+
+    // 页面主题变更后，变更 Moe Counter 主题
+    const moeCounterImg = document.querySelector("#moe-counter");
+    setMoeCounterTheme(moeCounterImg, site_pv, false);
+
+
+    const themeSwitcher = document.querySelector("#theme-toggle");
+    if (themeSwitcher) {
+        themeSwitcher.addEventListener("click", () => setMoeCounterTheme(moeCounterImg, site_pv));
+    }
+    const themeFloatSwitcher = document.querySelector("#theme-toggle-float");
+    if (themeFloatSwitcher) {
+        themeFloatSwitcher.addEventListener("click", () => setMoeCounterTheme(moeCounterImg, site_pv));
+    }
+</script>

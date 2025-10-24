@@ -1,7 +1,7 @@
 {{- if not (.Param "hideFooter") }}
 <footer class="footer">
     <!-- // 是文章页面，显示访问量 -->
-    {{- if site.Params.footer.busuanzi}}
+    {{- if and site.Params.footer.busuanzi (ne .RelPermalink "/about/")}}
     <script defer src="https://vercount.one/js"></script>
     {{- if eq .Kind "page" }}
     <div>

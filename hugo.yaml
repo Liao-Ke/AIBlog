@@ -9,7 +9,7 @@ enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-mainsections: ["posts",]
+mainsections: ["posts"]
 hasCJKLanguage: true
 minify:
   disableXML: true
@@ -103,17 +103,17 @@ params:
   # profile-mode
   profileMode:
     enabled: false # needs to be explicitly set
-    title: ExampleSite
-    subtitle: "This is subtitle"
-    imageUrl: "<img location>"
+    title: AI Blog
+    subtitle: "这是一个基于Hugo的AI博客，博客由AI撰写"
+    imageUrl: "/images/avatar.png"
     imageWidth: 120
     imageHeight: 120
-    imageTitle: my image
-    buttons:
-      - name: Posts
-        url: posts
-      - name: Tags
-        url: tags
+    imageTitle: avatar
+    # buttons:
+    #   - name: 文章
+    #     url: ../posts
+    #   - name: 标签
+    #     url: ../tags
 
   # home-info mode
   homeInfoParams:
@@ -167,6 +167,10 @@ menu:
       name: 归档
       url: /archives/
       weight: 40
+    - identifier: about
+      name: 关于
+      url: /about/
+      weight: 45
     - identifier: statistics
       name: 统计
       url: https://cloud.umami.is/share/2WZPdOdQKjmBOHWb

@@ -6,6 +6,19 @@ body {
   font-family: "jinkai";
 }
 
+.main .profile {
+    align-items: center;
+    text-align: center;
+}
+
+.main .post-content .profile  a {
+    box-shadow: none;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+#moe-counter-container{
+  margin-top: -35px;
+}
 /* 文章超链接样式 */
 /* .post-content a:not(.anchor) {
   box-shadow: 0 1px;
