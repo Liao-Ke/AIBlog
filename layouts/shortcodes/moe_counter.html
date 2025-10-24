@@ -1,6 +1,6 @@
-<div id="moe-counter-container"> 
- <img id="moe-counter" alt="Moe Counter">   
-    </div>
+<div id="moe-counter-container">
+    <img id="moe-counter" alt="Moe Counter">
+</div>
 
 
 <script defer src="https://vercount.one/js"></script>
@@ -15,11 +15,10 @@
 
     function setMoeCounterTheme(moeCounterImg, site_pv = 0, reverse = true,) {
         const themCode = getStoredTheme(reverse)
-        moeCounterImg.src = `https://count.getloli.com/@AIBlog?name=AIBlog&theme=booru-vivi&padding=8&offset=0&align=center&scale=1&pixelated=1&darkmode=${themCode}&num=${site_pv}`;
+        moeCounterImg.src = `https://count.getloli.com/@AIBlog-Lv1Uhom?name=AIBlog-Lv1Uhom&theme=booru-vivi&padding=8&offset=0&align=center&scale=1&pixelated=1&darkmode=${themCode}&num=${site_pv}`;
     }
 
-    const { site_pv } = JSON.parse(localStorage.getItem("visitorCountData"));
-
+        const { site_pv } = JSON.parse(localStorage.getItem("visitorCountData") || '{"site_pv":0}');
 
     // 页面主题变更后，变更 Moe Counter 主题
     const moeCounterImg = document.querySelector("#moe-counter");
