@@ -173,7 +173,7 @@ def main():
         if fail_sum == 0:
             return
         logger.info(f"当前失败次数: {fail_sum}")
-        resp = requests.get(url=f"https://lsk.icu/aiblog/api/blog//latest/{fail_sum}")
+        resp = requests.get(url=f"https://lsk.icu/aiblog/api/blog/latest/{fail_sum}")
         if resp.status_code != 200:
             logger.warning(f"获取最新博客失败，状态码: {resp.status_code}，响应: {resp.text}")
 

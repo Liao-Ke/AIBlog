@@ -1,3 +1,5 @@
+{{- /* https://count.getloli.com/ */ -}}
+
 <div id="moe-counter-container">
     <img id="moe-counter" alt="Moe Counter">
 </div>
@@ -13,7 +15,7 @@
         return reverse ? 1 - baseValue : baseValue;
     };
 
-    function setMoeCounterTheme(moeCounterImg, site_pv = 0, reverse = true,) {
+                    function setMoeCounterTheme(moeCounterImg, site_pv = 0, reverse = true) {
         const themCode = getStoredTheme(reverse)
         moeCounterImg.src = `https://count.getloli.com/@AIBlog-Lv1Uhom?name=AIBlog-Lv1Uhom&theme=booru-vivi&padding=8&offset=0&align=center&scale=1&pixelated=1&darkmode=${themCode}&num=${site_pv}`;
     }
