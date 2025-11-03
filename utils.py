@@ -1,3 +1,4 @@
+import datetime
 import os
 import random
 import string
@@ -6,6 +7,8 @@ import uuid
 from pathlib import Path
 from typing import Any
 from typing import Optional, Union
+
+import requests
 
 
 def save_file(
@@ -417,3 +420,80 @@ def generate_temp_filename(
         directory=temp_dir,
         **kwargs
     )
+
+
+def is_file_exists(file_path: Union[str, Path]) -> bool:
+    """
+    判断指定路径的文件是否存在（排除目录）
+
+    参数:
+        file_path: 文件路径，可以是字符串类型或Path对象（支持绝对路径/相对路径）
+
+    返回:
+        bool: True表示文件存在且是文件（非目录），False表示不存在或为目录
+    """
+    # 方法1：使用pathlib（Python 3.4+，推荐，更现代的路径处理）
+    path = Path(file_path)
+    # exists() 判断路径是否存在，is_file() 判断是否为文件（排除目录）
+    return path.exists() and path.is_file()
+
+    # 方法2：使用os模块（兼容旧版本Python）
+    # 如需使用，注释上面的return语句，取消下面的注释
+    # return os.path.exists(file_path) and os.path.isfile(file_path)
+
+
+def get_yyymmdd_date(date_input=None):
+    """
+    返回 yyymmdd 格式（如 20251103）的日期字符串
+
+    参数:
+        date_input: 可选，指定日期
+            - None: 返回当前日期
+            - 字符串: 支持 '2025-11-03'、'2025/11/03'、'20251103' 等格式
+            - datetime.date/datetime.datetime 对象
+
+    返回:
+        str: yyymmdd 格式的日期字符串
+    """
+
+    if date_input is None:
+        # 当前日期
+        return datetime.date.today().strftime("%Y%m%d")
+
+    elif isinstance(date_input, str):
+        # 尝试解析字符串
+        formats = ["%Y-%m-%d", "%Y/%m/%d", "%Y%m%d", "%m-%d-%Y", "%m/%d/%Y", "%d-%m-%Y", "%d/%m/%Y"]
+        for fmt in formats:
+            try:
+                parsed = datetime.datetime.strptime(date_input, fmt)
+                return parsed.date().strftime("%Y%m%d")
+            except ValueError:
+                continue
+        raise ValueError(f"无法解析日期字符串 '{date_input}'")
+
+    elif isinstance(date_input, (datetime.date, datetime.datetime)):
+        # 直接处理日期对象
+        if isinstance(date_input, datetime.datetime):
+            return date_input.date().strftime("%Y%m%d")
+        return date_input.strftime("%Y%m%d")
+
+    else:
+        raise TypeError("不支持的输入类型")
+
+
+def get_jinshan():
+    try:
+        res = requests.get("https://open.iciba.com/dsapi/")
+        res.raise_for_status()  # 检查请求是否成功
+        data = res.json()
+        # logger.info(f"今日金山词霸：{data.get('note')}")
+        return {
+            "note": data.get('note'),
+            "fenxiang_img": data.get('fenxiang_img')
+        }
+    except requests.RequestException as e:
+        # logger.error(f"网络请求错误: {e}")
+        return None
+    except ValueError as e:
+        # logger.error(f"JSON解析错误: {e}")
+        return None

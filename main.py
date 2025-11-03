@@ -1,8 +1,8 @@
 import json
+import logging
 import os
 import random
 import time
-import logging
 from datetime import datetime
 from functools import wraps
 
@@ -10,7 +10,7 @@ import requests
 from cozepy import Coze, TokenAuth, COZE_CN_BASE_URL
 from dotenv import load_dotenv
 
-from utils import save_file, generate_random_filename
+from utils import save_file, generate_random_filename, is_file_exists, get_jinshan, get_yyymmdd_date
 
 
 # --- 新增：日志和敏感信息处理函数 ---
@@ -128,9 +128,9 @@ def main():
     coze = Coze(auth=TokenAuth(coze_api_token), base_url=coze_api_base)
 
     @retry_with_exponential_backoff(max_attempts=5, initial_delay=15)
-    def create_workflow_run(_workflow_id):
+    def create_workflow_run(_workflow_id, _parameters=None):
         """创建工作流运行，带有重试机制"""
-        return coze.workflows.runs.create(workflow_id=_workflow_id)
+        return coze.workflows.runs.create(workflow_id=_workflow_id, parameters=_parameters)
 
     try:
         # 获取工作流ID并创建运行实例，最多重试3次
@@ -142,7 +142,14 @@ def main():
         masked_workflow_id = mask_sensitive_data(workflow_id)
         logger.info(f"开始执行工作流，ID: {masked_workflow_id}")
 
-        ct = create_workflow_run(workflow_id)
+        yyymmdd = get_yyymmdd_date()
+        parameters = None
+        if not is_file_exists(f"jinshan_data/{yyymmdd}"):
+            jinshan = get_jinshan()
+            save_file(f"jinshan_data/{yyymmdd}", jinshan)
+            parameters = {"input": [jinshan['note']]}
+
+        ct = create_workflow_run(workflow_id, parameters)
 
         # 对调试URL中的敏感信息进行过滤
         debug_url = ct.debug_url
