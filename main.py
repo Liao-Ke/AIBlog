@@ -70,6 +70,8 @@ def setup_logging():
 # --- 原有代码（保持不变） ---
 fail_sum = 0
 
+is_today_jinshan = False
+
 
 # 重试装饰器
 def retry_with_exponential_backoff(max_attempts=5, initial_delay=1, max_delay=180, exponential_base=2, jitter=True):
@@ -129,6 +131,9 @@ def main():
 
     @retry_with_exponential_backoff(max_attempts=5, initial_delay=15)
     def create_workflow_run(_workflow_id, _parameters=None):
+        global is_today_jinshan
+        if is_today_jinshan:
+            _parameters = None
         """创建工作流运行，带有重试机制"""
         return coze.workflows.runs.create(workflow_id=_workflow_id, parameters=_parameters)
 
@@ -144,7 +149,9 @@ def main():
 
         yyymmdd = get_yyymmdd_date()
         parameters = None
-        if not is_file_exists(f"jinshan_data/{yyymmdd}"):
+        global is_today_jinshan
+        is_today_jinshan = is_file_exists(f"jinshan_data/{yyymmdd}")
+        if not is_today_jinshan:
             jinshan = get_jinshan()
             save_file(f"jinshan_data/{yyymmdd}", jinshan)
             parameters = {"input": [jinshan['note']]}
