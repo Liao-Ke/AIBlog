@@ -134,6 +134,7 @@ def main():
         global is_today_jinshan
         if is_today_jinshan:
             _parameters = None
+        is_today_jinshan = True
         """创建工作流运行，带有重试机制"""
         return coze.workflows.runs.create(workflow_id=_workflow_id, parameters=_parameters)
 
