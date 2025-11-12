@@ -10,7 +10,7 @@ AIGC: true
 cover:
   image: "https://images.unsplash.com/photo-1758968611255-af2c6f31370a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4MTEzODh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI5Mzc3MzB8&ixlib=rb-4.1.0&q=80&w=1080"
   alt: "Scuba diver exploring a dark underwater wreck."
-  caption: "C:\DCIM\100GOPRO\GOPR0601.GPR"
+  caption: "C:\\DCIM\\100GOPRO\\GOPR0601.GPR"
 ---
 # 学习方法的认知迭代智慧：科技赋能学习新路径  
 *——把“学会”升级为“会学”的实操指南*
